@@ -13,6 +13,6 @@ Qcodes
 ## Release Notes
 
 
-### 1.0.0
+### 0.0.1
 
 Initial release, some basic functions, let's see how it goes. 
