@@ -1,26 +1,50 @@
 {
     
     
-    "imports for qcodes": {
-    "prefix": "qcodes",
-    "body": [
-        "#Magics",
-        "%load_ext autoreload",
-        "%autoreload 2",
-        "#General imports",
-        "import matplotlib.pyplot as plt",
-        "import numpy as np",
-        "import pandas as pd",
-        "#Qcodes imports",
-        "import qcodes",
-        "from qcodes import Station, load_or_create_experiment, initialise_database, Measurement", 
-        "\n",
-        "#%%",
-        "configuration['core']['db_location'] = '${1: path_to_db}' ",
-        "initialize_database()",
-        "load_or_create_experiment('${2: experiment name}', sample_name='$3')"
-    ],
-    "description": "Log output to console"
+    "qcodes_setup": {
+		"prefix": "qcodes",
+		"body": [
+		  "import numpy as np",
+		  "import pandas as pd",
+		  "from pathlib import Path",
+		  "from sys import platform",
+		  "import matplotlib.pyplot as plt",
+		  "",
+		  "import qcodes as qc",
+		  "from qcodes import load_by_id, load_or_create_experiment, initialise_database, Station, \\",
+		  "     config, experiments",
+		  "from qcodes.dataset.plotting import plot_by_id",
+		  "from qdev_wrappers.dataset.doNd import do0d, do1d",
+		  "",
+		  "if \"win\" in platform:",
+		  "    path = str(Path().absolute()).split(\"\\\\\")",
+		  "else:",
+		  "    path = str(Path().absolute()).split(\"/\")",
+		  "",
+		  "project_name = path[-2]",
+		  "experiment_name = path[-1]",
+		  "",
+		  "",
+		  "data_path_base = 'Z:/data'",
+		  "db_path = data_path_base + \"/\" + project_name + \"/\" + experiment_name",
+		  "if not Path(db_path).exists():",
+		  "    Path(db_path).mkdir()",
+		  "",
+		  "qc.config.current_config['core']['db_location'] = db_path + \".db\"",
+		  "",
+		  "path_to_station= str(Path()) + \"/station.yml\"",
+		  "if path_to_station:",
+		  "    station = Station(config_file=path_to_station)",
+		  "",
+		  "",
+		  "sample_name = \"right_angle_SMA\"",
+		  "",
+		  "initialise_database()",
+		  "",
+		  "load_or_create_experiment(experiment_name, sample_name=sample_name)"
+		],
+		"description": "qcodes_setup"
+	  }
 },
 
 "qc_measurement": {
